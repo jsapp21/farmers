@@ -28,6 +28,14 @@ const App = () => {
       } 
   }, []);
 
+  console.log(today)
+
+
+  // ##### Excerise One Start #####
+  const onClick = () => {
+    setToggleNameAndFav(!toggleNameAndFav)
+  }
+
   const getNameAndFavFridge1 = (dataArr) => {
       return (
         <tbody>
@@ -40,23 +48,19 @@ const App = () => {
         </tbody>
       )
   }
+  // ##### Excerise One End #####
 
-  const onClick = () => {
-    setToggleNameAndFav(!toggleNameAndFav)
-  }
 
+  // ##### Excerise Two Start #####
   const onClickTotal = () => {
     setToggleTotal(!toggleTotal)
-  }
-
-  const onClickUpdate = () => {
-    setToggleUpdate(!toggleUpdate)
   }
 
   const handleChange = (e) => {
     setSearch(e.target.value)
     getItemsTotalCost(search, dataArr)
   }
+
 
   const getItemsTotalCost = (search, dataArr) => {
     let arr = dataArr.filter(d => d.Name.toLowerCase().includes(search.toLowerCase()))
@@ -90,6 +94,13 @@ const App = () => {
       </tbody>
     )
   }
+  // ##### Excerise Two End #####
+
+  
+  // ##### Excerise Three Start #####
+  const onClickUpdate = () => {
+    setToggleUpdate(!toggleUpdate)
+  }
 
   const updateFavoriteFridge = (dataArr) => {
     let updatedData = dataArr.map(d => {
@@ -102,7 +113,7 @@ const App = () => {
     return (
       <tbody>
         <tr>
-          <td>I was updated!</td>
+          <td><strong>FF1 was updated!</strong></td>
         </tr>
         {updatedData.map(d =>
           <tr>
@@ -117,7 +128,7 @@ const App = () => {
     return (
       <tbody>
         <tr>
-          <td>I am waiting to be updated...</td>
+          <td><strong>FF1 is waiting to be updated...</strong></td>
         </tr>
         {dataArr.map(d =>
           <tr>
@@ -132,15 +143,19 @@ const App = () => {
   let year = today.getFullYear()
   let day = today.getDate()
   let hour = today.getHours()
+  // ##### Excerise Three End #####
 
   return (
     <div className="App">
+      {/* Excerise One Start */}
       <h2>Name and FavoriteFridge1</h2>
       <button onClick={onClick}>{toggleNameAndFav ? "Hide" : "Show"}</button>
       <table>
         {toggleNameAndFav ? getNameAndFavFridge1(dataArr) : null }
       </table>
+      {/* Excerise One End */}
 
+      {/* Excerise Two Start */}
       <h2>Search Name and Totals</h2>
       <p>ex. Jill, Candice, Alycia</p>
       <input type="text" onChange={handleChange} value={search}></input>
@@ -148,12 +163,15 @@ const App = () => {
       <table>
         {toggleTotal ? getItemsTotalCost(search, dataArr) : null}
       </table>
+      {/* Excerise Two End */}
 
+      {/* Excerise Three Start */}
       <h2>Update FavoriteFridge1</h2>
       <button onClick={onClickUpdate}>{toggleUpdate ? "Hide" : "Show"}</button>
-      <table style={{display: toggleUpdate ? 'contents' : 'none' }}>
-        {year === 2021 && month === 5 && day === 8 && hour <= 13 ? updateFavoriteFridge(dataArr) : favoriteFridge(dataArr)}
+      <table style={{display: toggleUpdate ? '' : 'none' }}>
+        {year === 2021 && month === 5 && day === 8 && hour === 14 ? updateFavoriteFridge(dataArr) : favoriteFridge(dataArr)}
       </table>
+      {/* Excerise Two End */}
 
     </div>
   );
