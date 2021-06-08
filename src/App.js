@@ -1,23 +1,160 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react'
+import * as d3 from 'd3';
+import data from './data.csv';
 
-function App() {
+const App = () => {
+  
+  const [dataArr, setDataArr] = useState([]);
+  const [toggleNameAndFav, setToggleNameAndFav] = useState(false);
+  const [toggleTotal, setToggleTotal] = useState(false);
+  const [toggleUpdate, setToggleUpdate] = useState(false);
+  const [search, setSearch] = useState('');
+  const [today, setToday] = useState(new Date());
+  
+  useEffect(() => {
+    d3.csv(data, function(data) { return data })
+    .then(data => {
+      setDataArr(data)
+    })
+  }, []);
+
+  useEffect(() => {
+      const timer = setInterval(() => {
+          setToday(new Date())
+      }, 60 * 1000);
+      return () => {
+        clearInterval(timer);
+      } 
+  }, []);
+
+  const getNameAndFavFridge1 = (dataArr) => {
+      return (
+        <tbody>
+          {dataArr.map(d => {
+            return <tr>
+              <td>{d.Name}</td>
+              <td>{d.FavoriteFridge1}</td>
+            </tr>
+            })}
+        </tbody>
+      )
+  }
+
+  const onClick = () => {
+    setToggleNameAndFav(!toggleNameAndFav)
+  }
+
+  const onClickTotal = () => {
+    setToggleTotal(!toggleTotal)
+  }
+
+  const onClickUpdate = () => {
+    setToggleUpdate(!toggleUpdate)
+  }
+
+  const handleChange = (e) => {
+    setSearch(e.target.value)
+    getItemsTotalCost(search, dataArr)
+  }
+
+  const getItemsTotalCost = (search, dataArr) => {
+    let arr = dataArr.filter(d => d.Name.toLowerCase().includes(search.toLowerCase()))
+
+    let sum = arr.map(d => {
+      if (d.Cost === ''){
+        return 0
+      } else {
+        return parseInt(d.Cost)
+      }
+    })
+
+    const getSum = (total, num) => {
+      return total + Math.round(num)
+    }
+
+    let finalSum = sum.reduce(getSum, 0)
+
+    return (
+      <tbody>
+        {arr.map(d => 
+          <tr>
+            <td>{d.Name}</td>
+            <td>{d.Items}</td>
+            <td>{d.Cost}</td>
+          </tr>
+          )}
+          {<tr>
+            <td><strong>Total: ${finalSum}</strong></td>
+            </tr>}
+      </tbody>
+    )
+  }
+
+  const updateFavoriteFridge = (dataArr) => {
+    let updatedData = dataArr.map(d => {
+      return {
+        ...d,
+        FavoriteFridge1: d.FavoriteFridge2
+      }
+    })    
+
+    return (
+      <tbody>
+        <tr>
+          <td>I was updated!</td>
+        </tr>
+        {updatedData.map(d =>
+          <tr>
+            <td>{d.FavoriteFridge1}</td>
+          </tr>
+          )}
+      </tbody>
+    )
+  }
+
+  const favoriteFridge = (dataArr) => {
+    return (
+      <tbody>
+        <tr>
+          <td>I am waiting to be updated...</td>
+        </tr>
+        {dataArr.map(d =>
+          <tr>
+            <td>{d.FavoriteFridge1}</td>
+          </tr>
+        )}
+      </tbody>
+    )
+  }
+  
+  let month = today.getMonth()
+  let year = today.getFullYear()
+  let day = today.getDate()
+  let hour = today.getHours()
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>Name and FavoriteFridge1</h2>
+      <button onClick={onClick}>{toggleNameAndFav ? "Hide" : "Show"}</button>
+      <table>
+        {toggleNameAndFav ? getNameAndFavFridge1(dataArr) : null }
+      </table>
+
+      <h2>Search Name and Totals</h2>
+      <p>ex. Jill, Candice, Alycia</p>
+      <input type="text" onChange={handleChange} value={search}></input>
+      <button onClick={onClickTotal}>{toggleTotal ? "Hide" : "Show"}</button>
+      <table>
+        {toggleTotal ? getItemsTotalCost(search, dataArr) : null}
+      </table>
+
+      <h2>Update FavoriteFridge1</h2>
+      <button onClick={onClickUpdate}>{toggleUpdate ? "Hide" : "Show"}</button>
+      <table style={{display: toggleUpdate ? 'contents' : 'none' }}>
+        {year === 2021 && month === 5 && day === 8 && hour <= 13 ? updateFavoriteFridge(dataArr) : favoriteFridge(dataArr)}
+      </table>
+
     </div>
   );
 }
