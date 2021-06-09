@@ -3,6 +3,7 @@
 This project was created with React.
 
 ## To start the project
+- fork and clone repo
 - cd into famers-fridge-app
 
 - install D3 in terminal: npm install d3
@@ -22,3 +23,5 @@ You will also see any lint errors in the console.
 Each exercise is labeled: 
 // ##### Excerise Start #####
 // ##### Excerise End #####
+
+Submitted by James Sapp
