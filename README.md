@@ -8,6 +8,7 @@ This project was created with React.
 - install D3 in terminal: npm install d3
 
 - make sure you are running version 6.0 or higher, npm d3 -v
+- npm i d3@6
 
 - run npm start
 Runs the app in the development mode.\

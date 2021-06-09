@@ -189,7 +189,7 @@ const App = () => {
       <h2>Update FavoriteFridge1</h2>
       <button onClick={onClickUpdate}>{toggleUpdate ? "Hide" : "Show"}</button>
       <table style={{display: toggleUpdate ? '' : 'none' }}>
-        {year === 2021 && month === 5 && day === 8 && hour >= 15 ? updateFavoriteFridge(dataArr) : favoriteFridge(dataArr)}
+        {year === 2021 && month === 5 && day === 9 && hour >= 23 ? updateFavoriteFridge(dataArr) : favoriteFridge(dataArr)}
       </table>
       {/* Excerise Two End */}
 
