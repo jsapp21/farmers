@@ -5,9 +5,44 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: forestgreen;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  text-align: center;
+}
+
+table, th, td {
+  margin: 0 auto;
+  border: 1px solid #282c34;
+  font-size: 12px;
+  border-collapse: collapse;
+  background-color: white;
+  padding: 5px;
+}
+
+tbody {
+  overflow-y: scroll;
+  display: block;
+  height: 400px;
+}
+
+p {
+  font-size: 12px;
+}
+
+h2 {
+  color: white;
+}
+
+button, input {
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+

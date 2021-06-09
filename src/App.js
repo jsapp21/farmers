@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useEffect, useState } from 'react'
 import * as d3 from 'd3';
 import data from './data.csv';
@@ -28,8 +27,6 @@ const App = () => {
       } 
   }, []);
 
-  console.log(today)
-
 
   // ##### Excerise One Start #####
   const onClick = () => {
@@ -37,9 +34,24 @@ const App = () => {
   }
 
   const getNameAndFavFridge1 = (dataArr) => {
+
+    let dataObj = {};
+    let arr = [];
+
+    dataArr.forEach(data => {
+      if (!dataObj[data.Name]){
+         dataObj[data.Name] = true;
+         arr.push(data)
+      } 
+    })
+
       return (
         <tbody>
-          {dataArr.map(d => {
+          <tr>
+            <td><strong>Name</strong></td>
+            <td><strong>FavoriteFridge1</strong></td>
+          </tr>
+          {arr.map(d => {
             return <tr>
               <td>{d.Name}</td>
               <td>{d.FavoriteFridge1}</td>
@@ -61,7 +73,6 @@ const App = () => {
     getItemsTotalCost(search, dataArr)
   }
 
-
   const getItemsTotalCost = (search, dataArr) => {
     let arr = dataArr.filter(d => d.Name.toLowerCase().includes(search.toLowerCase()))
 
@@ -81,6 +92,11 @@ const App = () => {
 
     return (
       <tbody>
+        <tr>
+          <td><strong>Name</strong></td>
+          <td><strong>Item</strong></td>
+          <td><strong>Price</strong></td>
+        </tr>
         {arr.map(d => 
           <tr>
             <td>{d.Name}</td>
@@ -89,7 +105,9 @@ const App = () => {
           </tr>
           )}
           {<tr>
-            <td><strong>Total: ${finalSum}</strong></td>
+            <td><strong>Total:</strong></td>
+            <td></td>
+            <td><strong>${finalSum}</strong></td>
             </tr>}
       </tbody>
     )
@@ -139,6 +157,7 @@ const App = () => {
     )
   }
   
+  // note: month (number) is one less than acutal month
   let month = today.getMonth()
   let year = today.getFullYear()
   let day = today.getDate()
@@ -147,16 +166,17 @@ const App = () => {
 
   return (
     <div className="App">
+
       {/* Excerise One Start */}
       <h2>Name and FavoriteFridge1</h2>
       <button onClick={onClick}>{toggleNameAndFav ? "Hide" : "Show"}</button>
-      <table>
-        {toggleNameAndFav ? getNameAndFavFridge1(dataArr) : null }
-      </table>
+        <table>
+          {toggleNameAndFav ? getNameAndFavFridge1(dataArr) : null }
+        </table>
       {/* Excerise One End */}
 
       {/* Excerise Two Start */}
-      <h2>Search Name and Totals</h2>
+      <h2>Names and Total</h2>
       <p>ex. Jill, Candice, Alycia</p>
       <input type="text" onChange={handleChange} value={search}></input>
       <button onClick={onClickTotal}>{toggleTotal ? "Hide" : "Show"}</button>
@@ -169,7 +189,7 @@ const App = () => {
       <h2>Update FavoriteFridge1</h2>
       <button onClick={onClickUpdate}>{toggleUpdate ? "Hide" : "Show"}</button>
       <table style={{display: toggleUpdate ? '' : 'none' }}>
-        {year === 2021 && month === 5 && day === 8 && hour === 14 ? updateFavoriteFridge(dataArr) : favoriteFridge(dataArr)}
+        {year === 2021 && month === 5 && day === 8 && hour >= 15 ? updateFavoriteFridge(dataArr) : favoriteFridge(dataArr)}
       </table>
       {/* Excerise Two End */}
 
